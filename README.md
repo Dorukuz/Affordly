@@ -25,10 +25,27 @@ python3 -m http.server 8080
 
 Upload the entire `website/` folder to your host for `affordly.gatex.uk`.
 
+### Coolify (Docker / Nixpacks)
+
+This repo includes:
+
+| File | Purpose |
+|------|---------|
+| `build.sh` | Writes **`dist/`** (required — Coolify copies `/app/dist` into nginx) |
+| `nginx.conf` | Short URLs `/privacy`, `/support`, `/terms` → `.html` |
+| `Dockerfile` | Optional single-stage nginx image (no `dist` build stage) |
+
+**If deploy fails with `"/app/dist": not found`:** run `bash build.sh` in the build phase, or set build command to `npm run build` (uses `package.json`).
+
+**Coolify settings (either):**
+
+1. **Static + build** — build command: `bash build.sh` or `npm run build`; publish/output: `dist`
+2. **Dockerfile** — build pack = Dockerfile in repo root (copies HTML directly, no `dist`)
+
 Examples:
 
 - **Cloudflare Pages** — project root = `Affordly/website`, custom domain `affordly.gatex.uk`
-- **Netlify** — publish directory = `Affordly/website`
+- **Netlify** — publish directory = `Affordly/website` or `dist` after `npm run build`
 - **nginx** — `root /var/www/affordly; index index.html;`
 
 ### DNS (gatex.uk)
