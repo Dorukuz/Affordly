@@ -1,0 +1,6 @@
+# Nixpacks (Coolify default builder): always produce /app/dist — do not leave build command empty in UI.
+[phases.install]
+cmds = ["echo 'Affordly static site — no dependencies'"]
+
+[phases.build]
+cmds = ["chmod +x build.sh", "./build.sh"]

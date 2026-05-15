@@ -4,6 +4,6 @@
   "version": "1.0.0",
   "description": "Affordly marketing site (static)",
   "scripts": {
-    "build": "bash build.sh"
+    "build": "./build.sh"
   }
 }

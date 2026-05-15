@@ -35,12 +35,21 @@ This repo includes:
 | `nginx.conf` | Short URLs `/privacy`, `/support`, `/terms` → `.html` |
 | `Dockerfile` | Optional single-stage nginx image (no `dist` build stage) |
 
-**If deploy fails with `"/app/dist": not found`:** run `bash build.sh` in the build phase, or set build command to `npm run build` (uses `package.json`).
+**If deploy fails with `"/app/dist": not found`:** the build phase must run `./build.sh` or `npm run build` (see `nixpacks.toml`).
 
-**Coolify settings (either):**
+**If deploy fails with `/bin/bash: -c: option requires an argument`:** Coolify is running `bash -c` with an **empty** command. In the app settings, **clear** custom Install/Build commands (use repo defaults), or set **exactly** one of:
 
-1. **Static + build** — build command: `bash build.sh` or `npm run build`; publish/output: `dist`
-2. **Dockerfile** — build pack = Dockerfile in repo root (copies HTML directly, no `dist`)
+| Field | Value |
+|-------|--------|
+| Build command | `npm run build` |
+| Install command | *(leave empty)* |
+
+Do **not** put `bash -c` alone in any command field.
+
+**Coolify settings (pick one):**
+
+1. **Dockerfile (recommended)** — Build pack: **Dockerfile** in repo root. Clear custom build/install commands. Multi-stage image builds `dist/` and serves with nginx.
+2. **Nixpacks** — Uses `nixpacks.toml` + `build.sh`. Build: `npm run build` or leave empty if `nixpacks.toml` is detected. Output: `dist`
 
 Examples:
 
